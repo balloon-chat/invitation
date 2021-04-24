@@ -13,3 +13,10 @@
 ```bash
 export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
 ```
+
+## CirceCI
+
+| パラメータ                       | 説明                                                                                    |
+| -------------------------------- | --------------------------------------------------------------------------------------- |
+| `GOOGLE_APPLICATION_CREDENTIALS` | (**必須**) Googleサービスアカウントの秘密鍵となるJSONファイルをbase64でエンコードした値 |
+| `GOOGLE_PROJECT_ID`              | (**必須**) デプロイ先のGCPプロジェクトID                                                |
