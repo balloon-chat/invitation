@@ -1,0 +1,16 @@
+.gcloudignore
+.git
+.gitignore
+
+# config files
+/.circleci
+/.idea
+/secret
+*.iml
+
+# documents
+*.md
+
+# codes
+/scripts
+/cmd
