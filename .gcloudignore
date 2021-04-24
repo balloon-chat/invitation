@@ -6,6 +6,7 @@
 /.circleci
 /.idea
 /secret
+/api
 *.iml
 
 # documents
