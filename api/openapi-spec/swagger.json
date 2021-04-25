@@ -1,0 +1,115 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "create-invitation",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://asia-northeast1-balloon-6bad2.cloudfunctions.net"
+    }
+  ],
+  "paths": {
+    "/create-invitation": {
+      "post": {
+        "summary": "Create Invitation",
+        "operationId": "post-create-invitation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "topicId": {
+                      "type": "string",
+                      "description": "招待コードが作成された話題のID"
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "作成された招待コード"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "招待コードが作成されている。"
+          }
+        },
+        "description": "招待コードを作成する",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "topicId": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "topicId": {
+                    "type": "string",
+                    "description": "話題のID"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/invititation-topic": {
+      "post": {
+        "summary": "Invitation Topic",
+        "operationId": "post-invititation-topic",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "topicId": {
+                      "type": "string",
+                      "description": "招待コードに対応する話題のID"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "招待コードの値が不正、または対応する話題が存在しない。"
+          }
+        },
+        "description": "招待コードから話題のIDを取得する",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "招待コード"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
