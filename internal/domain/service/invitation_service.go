@@ -8,7 +8,10 @@ import (
 
 type InvitationService interface {
 	CreateInvitation(topicId string) (*model.Invitation, error)
+
 	GetTopicId(code []int) (string, error)
+
+	GetInvitationCode(topicId string) ([]int, error)
 }
 
 type InvitationServiceImpl struct {
@@ -39,4 +42,8 @@ func (s *InvitationServiceImpl) GetTopicId(code []int) (string, error) {
 		return "", err
 	}
 	return string(topicId), err
+}
+
+func (s *InvitationServiceImpl) GetInvitationCode(topicId string) ([]int, error) {
+	return s.usecase.GetInvitationCode(model.TopicId(topicId))
 }

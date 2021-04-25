@@ -12,3 +12,7 @@ func CreateInvitation(w http.ResponseWriter, r *http.Request) {
 func GetTopicId(w http.ResponseWriter, r *http.Request) {
 	invitation.GetTopicId(w, r)
 }
+
+func GetInvitationCode(w http.ResponseWriter, r *http.Request) {
+	invitation.GetInvitationCode(w, r)
+}

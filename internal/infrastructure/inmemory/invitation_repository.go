@@ -19,6 +19,10 @@ func NewInvitationRepository() (*InMemoryInvitationRepository, error) {
 	}, nil
 }
 
+func (r *InMemoryInvitationRepository) Reset() {
+	r.invitations = []*model.Invitation{}
+}
+
 func (r *InMemoryInvitationRepository) Save(invitation *model.Invitation) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()

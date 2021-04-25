@@ -39,7 +39,10 @@ jobs:
           name: deploy invitation-topic
           command:
             gcloud functions deploy invitation-topic --region asia-northeast1 --entry-point GetTopicId --runtime go113 --trigger-http
-
+      - run:
+          name: deploy invitation-code
+          command:
+            gcloud functions deploy invitation-code --region asia-northeast1 --entry-point GetInvitationCode --runtime go113 --trigger-http
 workflows:
   version: 2
   test_and_deploy:

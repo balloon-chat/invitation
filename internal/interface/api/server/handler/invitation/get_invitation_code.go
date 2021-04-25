@@ -9,19 +9,18 @@ import (
 	"net/http"
 )
 
-type GetTopicIdRequest struct {
-	Code []int `json:"code"`
-}
-
-type GetTopicIdResponse struct {
+type GetInvitationCodeRequest struct {
 	TopicId string `json:"topicId"`
 }
 
-func GetTopicId(w http.ResponseWriter, r *http.Request) {
+type GetInvitationCodeResponse struct {
+	Code []int `json:"code"`
+}
+
+func GetInvitationCode(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
 	if r.Method == http.MethodOptions {
@@ -42,13 +41,13 @@ func GetTopicId(w http.ResponseWriter, r *http.Request) {
 		invitationService = s
 	}
 
-	var req GetTopicIdRequest
+	var req GetInvitationCodeRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	topicId, err := invitationService.GetTopicId(req.Code)
+	code, err := invitationService.GetInvitationCode(req.TopicId)
 	if err == usecase.InvalidInvitationCodeError {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -63,8 +62,8 @@ func GetTopicId(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = json.NewEncoder(w).Encode(GetTopicIdResponse{
-		TopicId: topicId,
+	err = json.NewEncoder(w).Encode(GetInvitationCodeResponse{
+		Code: code,
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

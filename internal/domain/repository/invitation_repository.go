@@ -15,6 +15,6 @@ type InvitationRepository interface {
 	// FindByTopicId TopicIdにより招待を探す。 もし、招待が存在しない場合は InvitationNotFoundError を返す
 	FindByTopicId(topicId model.TopicId) (*model.Invitation, error)
 
-	// FindByTopicId 招待コードにより招待を探す。 もし、招待が存在しない場合は InvitationNotFoundError を返す
+	// FindByInvitationCode 招待コードにより招待を探す。 もし、招待が存在しない場合は InvitationNotFoundError を返す
 	FindByInvitationCode(code model.InvitationCode) (*model.Invitation, error)
 }
