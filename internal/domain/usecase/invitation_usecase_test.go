@@ -33,3 +33,7 @@ func (t testInvitationRepository) FindByInvitationCode(code model.InvitationCode
 	}
 	return nil, repository.InvitationNotFoundError
 }
+
+func (t testInvitationRepository) Reset() {
+	invitations = []*model.Invitation{}
+}
