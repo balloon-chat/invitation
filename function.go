@@ -1,9 +1,14 @@
 package invite
 
 import (
+	"github.com/balloon/go/invite/env"
 	"github.com/balloon/go/invite/internal/interface/api/server/handler/invitation"
 	"net/http"
 )
+
+func init() {
+	env.LoadEnv()
+}
 
 func CreateInvitation(w http.ResponseWriter, r *http.Request) {
 	invitation.CreateInvitation(w, r)

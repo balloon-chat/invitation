@@ -5,6 +5,7 @@ import (
 	"github.com/balloon/go/invite/internal/domain/repository"
 	"github.com/balloon/go/invite/internal/domain/service"
 	"github.com/balloon/go/invite/internal/domain/usecase"
+	"github.com/balloon/go/invite/internal/interface/api/server/handler"
 	"log"
 	"net/http"
 )
@@ -20,13 +21,17 @@ type GetInvitationCodeResponse struct {
 func GetInvitationCode(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
+	w.Header().Set("Access-Control-Allow-Origin", handler.ClientEntryPoint)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-	if r.Method == http.MethodOptions {
+	switch r.Method {
+	case http.MethodPost:
+		break
+	case http.MethodOptions:
 		w.WriteHeader(http.StatusOK)
 		return
-	} else if r.Method != http.MethodPost {
+	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}

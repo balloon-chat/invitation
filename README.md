@@ -14,6 +14,36 @@
 export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
 ```
 
+## テストを実行
+テスト時にはワーキングディレクトリが随時変化していくので、  
+以下のようにタグを指定して実行することで、.envを読み込まないようにする。
+```shell
+go test -v ./... -tags=test
+```
+
+## 環境変数
+| 環境変数名                     | 説明                                                                       | サンプル                                         |
+| ------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------ |
+| ENV                            | アプリケーションの実行モード(この値に対応する`.env`ファイルが読み込まれる) | `development`, `production`                      |
+| CLIENT_ENTRY_POINT             | クライアントのサーバーを指すURL                                            | `http://localhost:3000`                          |
+| GOOGLE_APPLICATION_CREDENTIALS | 秘密鍵ファイルのパス(ローカルでデバッグ時に必須)                           | `/home/user/Downloads/service-account-file.json` |
+
+
+### `.env`ファイルのテンプレート
+- デバッグ
+```.env
+GOOGLE_APPLICATION_CREDENTIALS=YOUR_CREDENTIAL_FILE_PATH
+VERSION=development
+```
+- プロダクション
+```.env
+VERSION=production
+```
+- `.env.xxx`
+```shell
+CLIENT_ENTRY_POINT=https://your_clinet_entry_point.com
+```
+
 ## CirceCI
 
 | パラメータ                       | 説明                                                                                    |
