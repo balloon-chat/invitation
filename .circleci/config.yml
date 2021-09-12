@@ -15,7 +15,7 @@ jobs:
           command: go get
       - run:
           name: unit test
-          command: go test -v ./...
+          command: go test -v ./... -tags=test
       - save_cache:
           key: mod-{{ checksum "go.sum" }}
           paths:
