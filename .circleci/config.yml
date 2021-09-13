@@ -23,13 +23,13 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
-    working_directory: ~/app
+    working_directory: /go/src/github.com/balloon/invite
     steps:
       - checkout
       - run:
           name: decode dot env
           command: |
-            echo $DOT_ENV | base64 -di > ~/app/.env
+            echo $DOT_ENV | base64 -di > /go/src/github.com/balloon/invite/.env
       - run:
           name: gcloud configuration
           command: |

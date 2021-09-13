@@ -1,6 +1,10 @@
 #!/bin/zsh
 
 # 秘密鍵のパスを予めセットする
+if [ "$GOOGLE_SERVICE_ACCOUNT_CREDENTIALS" = "" ]; then
+    echo "GOOGLE_SERVICE_ACCOUNT_CREDENTIALS is empty"
+    exit 1
+fi
 echo "$GOOGLE_APPLICATION_CREDENTIALS"
 
 # 秘密鍵をbase64エンコーディングし、環境変数にセット
