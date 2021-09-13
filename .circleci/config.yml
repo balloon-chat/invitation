@@ -23,12 +23,17 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
+    working_directory: ~/app
     steps:
       - checkout
       - run:
+          name: decode dot env
+          command: |
+            echo $DOT_ENV | base64 -di > ~/app/.env
+      - run:
           name: gcloud configuration
           command: |
-            echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
+            echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
