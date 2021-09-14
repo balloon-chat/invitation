@@ -15,3 +15,6 @@
 # codes
 /scripts
 /cmd
+
+# env
+.env.development

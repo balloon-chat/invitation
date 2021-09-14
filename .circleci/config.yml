@@ -23,13 +23,8 @@ jobs:
   deploy:
     docker:
       - image: google/cloud-sdk
-    working_directory: /go/src/github.com/balloon/invite
     steps:
       - checkout
-      - run:
-          name: decode dot env
-          command: |
-            echo $DOT_ENV | base64 -di > /go/src/github.com/balloon/invite/.env
       - run:
           name: gcloud configuration
           command: |
@@ -39,15 +34,15 @@ jobs:
       - run:
           name: deploy create invitation
           command:
-            gcloud functions deploy create-invitation --region asia-northeast1 --entry-point CreateInvitation --runtime go113 --trigger-http
+            gcloud functions deploy create-invitation --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point CreateInvitation --runtime go113 --trigger-http
       - run:
           name: deploy invitation-topic
           command:
-            gcloud functions deploy invitation-topic --region asia-northeast1 --entry-point GetTopicId --runtime go113 --trigger-http
+            gcloud functions deploy invitation-topic  --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point GetTopicId --runtime go113 --trigger-http
       - run:
           name: deploy invitation-code
           command:
-            gcloud functions deploy invitation-code --region asia-northeast1 --entry-point GetInvitationCode --runtime go113 --trigger-http
+            gcloud functions deploy invitation-code   --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point GetInvitationCode --runtime go113 --trigger-http
 workflows:
   version: 2
   test_and_deploy:

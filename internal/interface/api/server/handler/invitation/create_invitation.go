@@ -2,9 +2,9 @@ package invitation
 
 import (
 	"encoding/json"
+	"github.com/balloon/go/invite/env"
 	"github.com/balloon/go/invite/internal/domain/service"
 	"github.com/balloon/go/invite/internal/domain/usecase"
-	"github.com/balloon/go/invite/internal/interface/api/server/handler"
 	"log"
 	"net/http"
 )
@@ -21,7 +21,7 @@ type CreateInvitationResponse struct {
 func CreateInvitation(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	w.Header().Set("Access-Control-Allow-Origin", handler.ClientEntryPoint)
+	w.Header().Set("Access-Control-Allow-Origin", env.ClientEntryPoint)
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 

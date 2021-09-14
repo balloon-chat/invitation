@@ -3,7 +3,6 @@ package firebase
 import (
 	"cloud.google.com/go/firestore"
 	"context"
-	firebase "firebase.google.com/go/v4"
 	"fmt"
 	"github.com/balloon/go/invite/internal/domain/model"
 	"github.com/balloon/go/invite/internal/domain/repository"
@@ -11,8 +10,6 @@ import (
 	"google.golang.org/api/iterator"
 	"sync"
 )
-
-var client *firestore.Client
 
 const (
 	invitationCollectionKey = "invitations"
@@ -24,16 +21,9 @@ type FirestoreInvitationRepository struct {
 }
 
 func NewFirestoreInvitationRepository() (*FirestoreInvitationRepository, error) {
-	if client == nil {
-		ctx := context.Background()
-		app, err := firebase.NewApp(ctx, nil)
-		if err != nil {
-			return nil, fmt.Errorf("error while initializing firebase app: %v", err)
-		}
-		client, err = app.Firestore(ctx)
-		if err != nil {
-			return nil, fmt.Errorf("error while initializing firestore: %v", err)
-		}
+	client, err := NewFirestore()
+	if err != nil {
+		return nil, err
 	}
 
 	r := &FirestoreInvitationRepository{
