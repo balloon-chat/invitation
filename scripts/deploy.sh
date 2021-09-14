@@ -1,6 +1,14 @@
-if [ "$GOOGLE_SERVICE_ACCOUNT_CREDENTIALS" = "" ]; then
-    echo "GOOGLE_SERVICE_ACCOUNT_CREDENTIALS is empty"
-    exit 1
-fi
+#!/bin/bash
 
-circleci local execute --job=deploy --env GCLOUD_SERVICE_KEY=`base64 $GOOGLE_SERVICE_ACCOUNT_CREDENTIALS` --env GOOGLE_PROJECT_ID=balloon-6bad2
+# 概要
+#   Cloud Functionsへ、ローカルのファイルをデプロイする
+# 注意点
+#   必ずプロジェクトのルートディレクトリ上で実行する。
+
+gcloud config set project balloon-6bad2
+gcloud functions deploy create-invitation \
+  --region asia-northeast1 \
+  --entry-point CreateInvitation \
+  --runtime go113 \
+  --trigger-http \
+  --set-env-vars VERSION=CF,CLIENT_ENTRY_POINT=https://omochat.app

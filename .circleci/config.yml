@@ -15,7 +15,7 @@ jobs:
           command: go get
       - run:
           name: unit test
-          command: go test -v ./...
+          command: go test -v ./... -tags=test
       - save_cache:
           key: mod-{{ checksum "go.sum" }}
           paths:
@@ -28,21 +28,21 @@ jobs:
       - run:
           name: gcloud configuration
           command: |
-            echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
+            echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - run:
           name: deploy create invitation
           command:
-            gcloud functions deploy create-invitation --region asia-northeast1 --entry-point CreateInvitation --runtime go113 --trigger-http
+            gcloud functions deploy create-invitation --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point CreateInvitation --runtime go113 --trigger-http
       - run:
           name: deploy invitation-topic
           command:
-            gcloud functions deploy invitation-topic --region asia-northeast1 --entry-point GetTopicId --runtime go113 --trigger-http
+            gcloud functions deploy invitation-topic  --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point GetTopicId --runtime go113 --trigger-http
       - run:
           name: deploy invitation-code
           command:
-            gcloud functions deploy invitation-code --region asia-northeast1 --entry-point GetInvitationCode --runtime go113 --trigger-http
+            gcloud functions deploy invitation-code   --set-env-vars VERSION=${VERSION},CLIENT_ENTRY_POINT=${CLIENT_ENTRY_POINT} --region asia-northeast1 --entry-point GetInvitationCode --runtime go113 --trigger-http
 workflows:
   version: 2
   test_and_deploy:
